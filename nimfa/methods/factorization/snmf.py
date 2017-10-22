@@ -403,7 +403,7 @@ class Snmf(nmf_std.Nmf_std):
                                 tmp_f[i, h_set[j]] = True
                     idx_f = find(tmp_f[:, h_set])
                     i_f = [l % p_set.shape[0] for l in idx_f]
-                    j_f = [l / p_set.shape[0] for l in idx_f]
+                    j_f = [l // p_set.shape[0] for l in idx_f]
                     if len(i_f) == 0:
                         break
                     if n_h_set == 1:
@@ -558,10 +558,10 @@ class Snmf(nmf_std.Nmf_std):
                     if n_h_set == 1:
                         h_n = h_set * np.ones((1, len(j_f)))
                         l_1n = i_f
-                        l_2n = h_n.tolist()[0]
+                        l_2n = list(map(int, h_n.tolist()[0]))
                     else:
                         l_1n = i_f
-                        l_2n = [h_set[e] for e in j_f]
+                        l_2n = list(map(int, [h_set[e] for e in j_f]))
                     t_d = D[l_1n, l_2n] / (D[l_1n, l_2n] - K[l_1n, l_2n])
                     for i in range(len(i_f)):
                         alpha[i_f[i], j_f[i]] = t_d.flatten()[0, i]
